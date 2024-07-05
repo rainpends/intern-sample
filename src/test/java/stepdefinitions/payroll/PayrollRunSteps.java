@@ -19,7 +19,7 @@ public class PayrollRunSteps {
     @Given("I am on the login page")
     public void onLoginPage() {
         driver = new ChromeDriver();
-        payrollpage = new PayrollRun(driver);
+        payrollpage = new PayrollRun(driver, "2024", "September", "Normal Payroll", "9/15/2024");
         payrollpage.navigateTo();
     }
 
@@ -45,7 +45,7 @@ public class PayrollRunSteps {
         if(!firstScenario) {
             throw new RuntimeException("Scenario 1 failed, skipping Scenario 2");
         }
-        assertEquals(payrollpage.onPayrolls(), "PAYROLL");
+        assertTrue(payrollpage.onPayrolls());
     }
 
     @When("I create a new payroll run")
@@ -55,10 +55,11 @@ public class PayrollRunSteps {
 
     @And("I set the payroll run setup")
     public void setMonth() {
+//        payrollpage.selectYear();
         payrollpage.selectMonth();
         payrollpage.selectPayGroup();
         payrollpage.selectRunType();
-        payrollpage.setDateTo("9/15/2024");
+        payrollpage.setDateTo();
     }
 
     @And("I click the save and next button")

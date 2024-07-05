@@ -1,9 +1,6 @@
 package pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.SearchContext;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -12,116 +9,158 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 public class PayrollRun {
-    private String month = "September";
-    private String runType = "Normal Payroll";
-    private WebDriver driver;
+    private final String year;
+    private final String month;
+    private final String runType;
+    private final WebDriver driver;
+    private final String toDate;
 
-    private By txtUsername = By.id("txtUsername");
-    private By txtPassword = By.id("txtPassword");
-    private By btnLogin = By.id("btnLogin");
-    private By tdcompanyName = By.id("tdcompanyName");
-    private By grayBar = By.className("grayBar");
+    private static long DEFAULT_WAIT = 15;
+    private static final String URL = "https://payroll-staging.sprout.ph/Login.aspx";
 
-    private By ph1_btnCreate = By.id("ph1_btnCreate");
+    private static By MONTH_OPTION;
+    private static By RUNTYPE_OPTION;
 
-    private By monthArrow = By.id("ctl00_ph1_cmbMonth_Arrow");
-    private By monthOption = By.xpath("//div[@id='ctl00_ph1_cmbMonth_DropDown']/div[@class='rcbScroll rcbWidth']/ul[@class='rcbList']/li[text()='"+month+"']");
-    private By payGroupArrow = By.id("ctl00_ph1_cmbEmployeeTypeDynamic_Arrow");
-    private By payGroupOptionAll = By.xpath("//input[contains(@class,'rcbCheckAllItemsCheckBox')]");
-    private By runTypeArrow = By.id("ctl00_ph1_cmbPayrollType_Arrow");
-    private By runTypeOption = By.xpath("//div[@id='ctl00_ph1_cmbPayrollType_DropDown']/div[@class='rcbScroll rcbWidth']/ul[@class='rcbList']/li[text()='"+runType+"']");
-    private By toDateInput = By.id("ctl00_ph1_rdpTo_dateInput");
+    private static final By USERNAME = By.id("txtUsername");
+    private static final By PASSWORD = By.id("txtPassword");
+    private static final By LOGIN = By.id("btnLogin");
+    private static final By COMPANY_NAME = By.id("tdcompanyName");
+    private static final By PAYROLLRUNS_TABLE = By.id("ctl00_ph1_grdPayrolls");
 
-    private By ph1_btnSave = By.id("ph1_btnSave");
-    private By ph1_btnNext = By.id("ph1_btnNext");
+    private static final By CREATE_PAYROLL = By.id("ph1_btnCreate");
 
-    private By ph1_saveDiv = By.id("ph1_SaveDiv");
-    private By saveAndProcess = By.xpath("//div[@id='ph1_SaveDiv']/div[@class='dropdown-content']/input[contains(@value, 'SAVE & PROCESS')]");
+    private static final By MONTH_DROPDOWN = By.id("ctl00_ph1_cmbMonth_DropDown");
+    private static final By PAYGROUP_DROPDOWN = By.id("ctl00_ph1_cmbEmployeeTypeDynamic_DropDown");
+    private static final By RUNTYPE_DROPDOWN = By.id("ctl00_ph1_cmbPayrollType_DropDown");
 
-    private By summaryTable = By.id("ctl00_ph1_ctl00_ph1_grdPayrollPanel");
+    private static final By YEAR_INPUT = By.id("ctl00_ph1_txtYear");
+    private static final By MONTH_ARROW = By.id("ctl00_ph1_cmbMonth_Arrow");
+    private static final By PAYGROUP_ARROW = By.id("ctl00_ph1_cmbEmployeeTypeDynamic_Arrow");
+    private static final By PAYGROUP_OPTION = By.xpath("//input[contains(@class,'rcbCheckAllItemsCheckBox')]");
+    private static final By RUNTYPE_ARROW = By.id("ctl00_ph1_cmbPayrollType_Arrow");
+    private static final By TO_DATE_INPUT = By.id("ctl00_ph1_rdpTo_dateInput");
 
+    private static final By SAVE_SETUP = By.id("ph1_btnSave");
+    private static final By NEXT = By.id("ph1_btnNext");
 
-    public PayrollRun(WebDriver driver) {
+    private static final By SAVE_DIV = By.id("ph1_SaveDiv");
+    private static final By SAVE_AND_PROCESS = By.xpath("//div[@id='ph1_SaveDiv']/div[@class='dropdown-content']/input[contains(@value, 'SAVE & PROCESS')]");
+
+    private static final By SUMMARY_TABLE = By.id("ctl00_ph1_ctl00_ph1_grdPayrollPanel");
+    private static final By LOADING = By.xpath("//div[@class='raDiv']");
+
+    public PayrollRun(WebDriver driver, String year, String month, String runType, String toDate) {
         this.driver = driver;
+        this.year = year;
+        this.month = month;
+        this.runType = runType;
+        this.toDate = toDate;
     }
 
     public void navigateTo() {
-        driver.get("https://payroll-staging.sprout.ph/Login.aspx");
+        driver.get(URL);
     }
 
     public void enterUsername(String username) {
-        driver.findElement(txtUsername).sendKeys(username);
+        enterText(USERNAME, username);
     }
 
     public void enterPassword(String password) {
-        driver.findElement(txtPassword).sendKeys(password);
+        enterText(PASSWORD, password);
     }
 
     public void clickLoginButton() {
-        driver.findElement(btnLogin).click();
+        clickElement(LOGIN);
     }
 
     public boolean isLoggedIn() {
-        return driver.findElement(tdcompanyName).isDisplayed();
+        return isElementDisplayed(COMPANY_NAME);
     }
 
     public void clickNewPayrollButton() {
-        driver.findElement(ph1_btnCreate).click();
-        WebDriverWait waitInvisible = new WebDriverWait(driver, Duration.ofSeconds(5));
-        waitInvisible.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[@class='raDiv']")));
+        waitForElement(LOADING, 5, "invisible");
+        clickElement(CREATE_PAYROLL);
     }
 
-    public String onPayrolls() {
-        WebElement pageName =  driver.findElement(grayBar).findElement(By.tagName("strong"));
-        return pageName.getText();
+    public boolean onPayrolls() {
+        return isElementDisplayed(PAYROLLRUNS_TABLE);
     }
+
+//    public void selectYear() {
+//        enterText(YEAR_INPUT, year);
+//        waitForElement(LOADING, DEFAULT_WAIT, "invisible");
+//    }
 
     public void selectMonth() {
-        driver.findElement(monthArrow).click();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='ctl00_ph1_cmbMonth_DropDown']/div[@class='rcbScroll rcbWidth']/ul[@class='rcbList']/li[text()='"+month+"']")));
-        driver.findElement(monthOption).click();
+        MONTH_OPTION = By.xpath("//div[@id='ctl00_ph1_cmbMonth_DropDown']/div[@class='rcbScroll rcbWidth']/ul[@class='rcbList']/li[text()='"+month+"']");
+        clickElement(MONTH_ARROW);
+        waitForElement(MONTH_OPTION, DEFAULT_WAIT, "visible");
+        clickElement(MONTH_OPTION);
+        waitForElement(LOADING, DEFAULT_WAIT, "invisible");
     }
 
     public void selectPayGroup() {
-        driver.findElement(payGroupArrow).click();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[contains(@class,'rcbCheckAllItemsCheckBox')]")));
-        driver.findElement(payGroupOptionAll).click();
+        clickElement(PAYGROUP_ARROW);
+        waitForElement(PAYGROUP_OPTION, DEFAULT_WAIT, "visible");
+        clickElement(PAYGROUP_OPTION);
+        waitForElement(LOADING, DEFAULT_WAIT, "invisible");
     }
 
     public void selectRunType() {
-        driver.findElement(runTypeArrow).click();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='ctl00_ph1_cmbPayrollType_DropDown']/div[@class='rcbScroll rcbWidth']/ul[@class='rcbList']/li[text()='"+runType+"']")));
-        driver.findElement(runTypeOption).click();
-        WebDriverWait waitInvisible = new WebDriverWait(driver, Duration.ofSeconds(5));
-        waitInvisible.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[@class='raDiv']")));
+        RUNTYPE_OPTION = By.xpath("//div[@id='ctl00_ph1_cmbPayrollType_DropDown']/div[@class='rcbScroll rcbWidth']/ul[@class='rcbList']/li[text()='"+runType+"']");
+        clickElement(RUNTYPE_ARROW);
+        waitForElement(RUNTYPE_OPTION, DEFAULT_WAIT, "visible");
+        clickElement(RUNTYPE_OPTION);
+        waitForElement(LOADING, DEFAULT_WAIT, "invisible");
     }
 
-    public void setDateTo(String toDate) {
-        driver.findElement(toDateInput).clear();
-        driver.findElement(toDateInput).sendKeys(toDate);
+    public void setDateTo() {
+        enterText(TO_DATE_INPUT, toDate);
     }
 
     public void savePayroll() {
-        driver.findElement(ph1_btnSave).click();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ph1_btnNext")));
-        driver.findElement(ph1_btnNext).click();
-        WebDriverWait waitInvisible = new WebDriverWait(driver, Duration.ofSeconds(5));
-        waitInvisible.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[@class='raDiv']")));
+        clickElement(SAVE_SETUP);
+        waitForElement(NEXT, 5, "visible");
+        clickElement(NEXT);
     }
 
     public void saveAndProcessPayroll() {
-        driver.findElement(ph1_saveDiv).click();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='ph1_SaveDiv']/div[@class='dropdown-content']/input[contains(@value, 'SAVE & PROCESS')]")));
-        driver.findElement(saveAndProcess).click();
+        waitForElement(LOADING, 5, "invisible");
+        clickElement(SAVE_DIV);
+        waitForElement(SAVE_AND_PROCESS, 5, "visible");
+        clickElement(SAVE_AND_PROCESS);
     }
 
     public boolean isTableDisplayed() {
-        return driver.findElement(summaryTable).isDisplayed();
+        return isElementDisplayed(SUMMARY_TABLE);
+    }
+
+    public void waitForElement(By locator, long seconds, String waitType) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
+        switch (waitType) {
+            case "visible":
+                wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+                break;
+            case "invisible":
+                wait.until(ExpectedConditions.invisibilityOfElementLocated(locator));
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid wait type");
+        }
+    }
+
+    public void clickElement(By locator) {
+        driver.findElement(locator).click();
+    }
+
+    public void enterText(By locator, String txt) {
+        WebElement element = driver.findElement(locator);
+        element.clear();
+        element.sendKeys(txt);
+    }
+
+    public boolean isElementDisplayed(By locator) {
+        return driver.findElement(locator).isDisplayed();
     }
 
 }
