@@ -6,8 +6,8 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        features = "src/test/java/features/payroll",
-        glue = "stepdefinitions.payroll",
+        features = "src/test/java/features/payrollTable",
+        glue = "stepdefinitions.payrollTable",
         plugin = {"pretty", "html:target/cucumber-reports"}
 )
 

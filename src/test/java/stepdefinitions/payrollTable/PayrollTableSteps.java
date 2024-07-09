@@ -1,26 +1,26 @@
-package stepdefinitions.payroll;
+package stepdefinitions.payrollTable;
 
+import io.cucumber.java.AfterAll;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import pages.PayrollRun;
 import pages.PayrollTable;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class PayrollRunSteps {
+public class PayrollTableSteps {
     private static WebDriver driver;
-    private static PayrollRun payrollpage;
+    private static PayrollTable payrollpage;
     private static Boolean firstScenario = false;
 
     @Given("I am on the login page")
     public void onLoginPage() {
         driver = new ChromeDriver();
-        payrollpage = new PayrollRun(driver, "2024", "September", "Normal Payroll", "all", "9/1/2024", "9/15/2024");
+        payrollpage = new PayrollTable(driver);
         payrollpage.navigateTo();
     }
 
@@ -37,8 +37,8 @@ public class PayrollRunSteps {
 
     @Then("I should be logged in")
     public void loginSuccess() {
-       firstScenario = payrollpage.isLoggedIn();
-       assertTrue("Scenario 1 failed", firstScenario);
+        firstScenario = payrollpage.isLoggedIn();
+        assertTrue("Scenario 1 failed", firstScenario);
     }
 
     @Given("I am on the payrolls page")
@@ -49,33 +49,27 @@ public class PayrollRunSteps {
         assertTrue(payrollpage.onPayrolls());
     }
 
-    @When("I create a new payroll run")
-    public void createPayrollRun() {
-        payrollpage.clickNewPayrollButton();
-    }
-
-    @And("I set the payroll run setup")
-    public void setMonth() {
-//        payrollpage.selectYear();
-        payrollpage.selectMonth();
-        payrollpage.selectPayGroup();
-        payrollpage.selectRunType();
-        payrollpage.setDateTo();
-    }
-
-    @And("I click the save and next button")
-    public void savePayrollRun() {
+    @When("I create a new payroll run for {string} with type {string} for the pay group {string}")
+    public void createPayrollRun(String Payrolldate, String runType, String payGroup) {
+        payrollpage.createPayrollRun(Payrolldate, runType, payGroup);
         payrollpage.savePayroll();
-    }
-
-    @And("I save and process the payroll")
-    public void saveAndProcessPayroll() {
         payrollpage.saveAndProcessPayroll();
     }
 
     @Then("I should get the payroll summary table")
     public void isTableDisplayed() {
         assertTrue(payrollpage.isTableDisplayed());
+        payrollpage.backToList();
         //driver.quit();
+    }
+
+    @Given("I am on the payroll list page")
+    public void onPayrollPage() {
+        assertTrue(payrollpage.onPayrolls());
+    }
+
+    @Then("I download the payroll summary excel")
+    public void downloadTable() {
+        payrollpage.exportExcel();
     }
 }
