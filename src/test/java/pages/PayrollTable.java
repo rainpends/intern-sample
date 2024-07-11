@@ -174,7 +174,7 @@ public class PayrollTable {
         clickElement(SAVE_AND_PROCESS);
     }
 
-    public void exportExcel() {
+    public void exportExcel() throws InterruptedException {
         waitForElement(LOADING, 5, "invisible");
         clickElement(REPORTS_MENU);
         waitForElement(PAYROLL_MENU, 5, "visible");
@@ -188,6 +188,7 @@ public class PayrollTable {
         waitForElement(LOADING, 10, "invisible");
         clickElement(REPORTS_LOGS);
         waitForElement(LOADING, 10, "invisible");
+        Thread.sleep(2000);
         waitForText(STATUS, 10, "READY");
         clickElement(DOWNLOAD);
         waitForElement(LOADING, 5, "invisible");

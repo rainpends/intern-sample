@@ -69,7 +69,7 @@ public class PayrollTableSteps {
     }
 
     @Then("I download the payroll summary excel")
-    public void downloadTable() {
+    public void downloadTable() throws InterruptedException {
         payrollpage.exportExcel();
     }
 }
