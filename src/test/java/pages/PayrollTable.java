@@ -41,6 +41,7 @@ public class PayrollTable {
     private static final By EXPORT_EXCEL = By.id("ph1_btnToExcel");
     private static final By REPORTS_LOGS = By.cssSelector("a[href='ReportsLogs.aspx']");
     private static final By DOWNLOAD = By.id("ctl00_ph1_grdQueue_ctl00_ctl04_linkDownload");
+    private static final By STATUS = By.className("status-text");
 
     private static final By MONTH_DROPDOWN = By.id("ctl00_ph1_cmbMonth_DropDown");
     private static final By PAYGROUP_DROPDOWN = By.id("ctl00_ph1_cmbEmployeeTypeDynamic_DropDown");
@@ -186,13 +187,19 @@ public class PayrollTable {
         clickElement(EXPORT_EXCEL);
         waitForElement(LOADING, 10, "invisible");
         clickElement(REPORTS_LOGS);
-        waitForElement(LOADING, 5, "invisible");
+        waitForElement(LOADING, 10, "invisible");
+        waitForText(STATUS, 10, "READY");
         clickElement(DOWNLOAD);
         waitForElement(LOADING, 5, "invisible");
     }
 
     public boolean isTableDisplayed() {
         return isElementDisplayed(SUMMARY_TABLE);
+    }
+
+    public void waitForText(By locator, long seconds, String text) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
+        wait.until(ExpectedConditions.textToBePresentInElementLocated(locator, text));
     }
 
     public void waitForElement(By locator, long seconds, String waitType) {
