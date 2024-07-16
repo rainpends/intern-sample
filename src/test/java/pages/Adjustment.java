@@ -199,13 +199,9 @@ public class Adjustment {
         waitForElement(ADJUSTMENT_OPTION, DEFAULT_WAIT, "visible");
         clickElement(ADJUSTMENT_OPTION);
         waitForElement(LOADING, DEFAULT_WAIT, "invisible");
-        Thread.sleep(1000);
         enterText(ADJUSTMENT_NAME, name);
-        Thread.sleep(1000);
         enterText(ADJUSTMENT_CODE, code);
-        Thread.sleep(1000);
         enterText(ADJUSTMENT_AMOUNT, amount);
-        Thread.sleep(1000);
         enterText(ADJUSTMENT_REMARKS, remarks);
     }
 
@@ -239,15 +235,10 @@ public class Adjustment {
         waitForElement(ADJ_OPTION, DEFAULT_WAIT, "visible");
         clickElement(ADJ_OPTION);
         waitForElement(LOADING, DEFAULT_WAIT, "invisible");
-        Thread.sleep(1000);
         enterText(ADJ_NAME, name);
-        Thread.sleep(1000);
         enterText(ADJ_CODE, code);
-        Thread.sleep(1000);
         enterText(ADJ_AMNT, amount);
-        Thread.sleep(1000);
         enterText(ADJ_DATE, date);
-        Thread.sleep(1000);
         enterText(ADJ_REM, remarks);
         waitForElement(LOADING, DEFAULT_WAIT, "invisible");
         clickElement(SAVE_ADJ);
