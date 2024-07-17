@@ -2,6 +2,5 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/healenium-1.4.1/shell-installation/selenium-grid/healenium-selector-imitator" vcs="Git" />
   </component>
 </project>

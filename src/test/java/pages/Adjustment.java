@@ -1,5 +1,6 @@
 package pages;
 
+import com.epam.healenium.SelfHealingDriverWait;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -290,7 +291,7 @@ public class Adjustment {
     }
 
     public void waitForElement(By locator, long seconds, String waitType) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
+        SelfHealingDriverWait wait = new SelfHealingDriverWait(driver, Duration.ofSeconds(seconds));
         switch (waitType) {
             case "visible":
                 wait.until(ExpectedConditions.visibilityOfElementLocated(locator));

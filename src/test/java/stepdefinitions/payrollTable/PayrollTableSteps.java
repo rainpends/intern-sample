@@ -1,5 +1,6 @@
 package stepdefinitions.payrollTable;
 
+import com.epam.healenium.SelfHealingDriver;
 import io.cucumber.java.AfterAll;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -13,13 +14,15 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class PayrollTableSteps {
-    private static WebDriver driver;
+    private static WebDriver delegate;
+    private static SelfHealingDriver driver;
     private static PayrollTable payrollpage;
     private static Boolean firstScenario = false;
 
     @Given("I am on the login page")
     public void onLoginPage() {
-        driver = new ChromeDriver();
+        delegate = new ChromeDriver();
+        driver = SelfHealingDriver.create(delegate);
         payrollpage = new PayrollTable(driver);
         payrollpage.navigateTo();
     }

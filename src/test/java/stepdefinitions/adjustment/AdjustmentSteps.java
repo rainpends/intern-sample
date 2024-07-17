@@ -1,5 +1,6 @@
 package stepdefinitions.adjustment;
 
+import com.epam.healenium.SelfHealingDriver;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -12,7 +13,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class AdjustmentSteps {
-    private static WebDriver driver;
+    private static WebDriver delegate;
+    private static SelfHealingDriver driver;
     private static Adjustment payrollpage;
     private static Boolean firstScenario = false;
     private static Boolean adjustmentDisplayed = false;
@@ -21,7 +23,8 @@ public class AdjustmentSteps {
 
     @Given("I am on the login page")
     public void onLoginPage() {
-        driver = new ChromeDriver();
+        delegate = new ChromeDriver();
+        driver = SelfHealingDriver.create(delegate);
         payrollpage = new Adjustment(driver);
         payrollpage.navigateTo();
     }

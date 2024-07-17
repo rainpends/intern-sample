@@ -147,14 +147,13 @@
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-chrome-driver</artifactId>
-            <version>4.13.0</version>
+            <version>4.22.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-firefox-driver</artifactId>
-            <version>4.18.1</version>
-            <scope>test</scope>
+            <groupId>com.epam.healenium</groupId>
+            <artifactId>healenium-web</artifactId>
+            <version>3.5.3</version>
         </dependency>
     </dependencies>
     <dependencyManagement>
@@ -168,7 +167,7 @@
             <dependency>
                 <groupId>org.seleniumhq.selenium</groupId>
                 <artifactId>selenium-java</artifactId>
-                <version>4.18.1</version>
+                <version>4.22.0</version>
             </dependency>
             <dependency>
                 <groupId>org.testng</groupId>
@@ -246,7 +245,7 @@
             <dependency>
                 <groupId>org.seleniumhq.selenium</groupId>
                 <artifactId>selenium-chrome-driver</artifactId>
-                <version>4.13.0</version>
+                <version>4.22.0</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

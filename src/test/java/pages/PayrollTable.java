@@ -1,5 +1,6 @@
 package pages;
 
+import com.epam.healenium.SelfHealingDriverWait;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -199,12 +200,12 @@ public class PayrollTable {
     }
 
     public void waitForText(By locator, long seconds, String text) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
+        SelfHealingDriverWait wait = new SelfHealingDriverWait(driver, Duration.ofSeconds(seconds));
         wait.until(ExpectedConditions.textToBePresentInElementLocated(locator, text));
     }
 
     public void waitForElement(By locator, long seconds, String waitType) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
+        SelfHealingDriverWait wait = new SelfHealingDriverWait(driver, Duration.ofSeconds(seconds));
         switch (waitType) {
             case "visible":
                 wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
