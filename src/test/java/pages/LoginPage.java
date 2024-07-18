@@ -1,36 +1,35 @@
 package pages;
 
+import com.epam.healenium.SelfHealingDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class LoginPage {
-    private WebDriver driver;
-    private By txtUsername = By.id("txtUsername");
-    private By txtPassword = By.id("txtPassword");
-    private By btnLogin = By.id("btnLogin");
-    private By tdcompanyName = By.id("tdcompanyName");
+public class LoginPage extends PageBase{
 
-    public LoginPage(WebDriver driver) {
-        this.driver = driver;
-    }
+    private static final By USERNAME_INPUT = By.id("txtUsername");
+    private static final By PASSWORD_INPUT = By.id("txtPassword");
+    private static final By LOGIN_BTN = By.id("btnLogin");
+    private static final By COMPANY_NAME = By.id("tdcompanyName");
+    private static final By PAYROLLRUNS_TABLE = By.id("ctl00_ph1_grdPayrolls");
 
-    public void navigateTo() {
-        driver.get("https://payroll-test-qa.sprout.ph/Login.aspx");
+    public LoginPage(SelfHealingDriver driver) {
+        super(driver);
     }
 
     public void enterUsername(String username) {
-        driver.findElement(txtUsername).sendKeys(username);
+        enterText(USERNAME_INPUT, username);
     }
 
     public void enterPassword(String password) {
-        driver.findElement(txtPassword).sendKeys(password);
+        enterText(PASSWORD_INPUT, password);
     }
 
     public void clickLoginButton() {
-        driver.findElement(btnLogin).click();
+        clickElement(LOGIN_BTN);
     }
 
     public boolean isLoggedIn() {
-        return driver.findElement(tdcompanyName).isDisplayed();
+        return isElementDisplayed(COMPANY_NAME);
     }
+
 }

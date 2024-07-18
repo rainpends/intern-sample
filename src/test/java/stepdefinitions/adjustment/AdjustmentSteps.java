@@ -8,133 +8,99 @@ import io.cucumber.java.en.When;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import pages.Adjustment;
+import pages.EmployeesPage;
+import pages.LoginPage;
+import pages.PayrollPage;
+import stepdefinitions.login.LoginSteps;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class AdjustmentSteps {
     private static WebDriver delegate;
-    private static SelfHealingDriver driver;
-    private static Adjustment payrollpage;
-    private static Boolean firstScenario = false;
-    private static Boolean adjustmentDisplayed = false;
-    private static Boolean adjDisplayed = false;
-    private static Boolean adjRowDisplayed = false;
+    private static PayrollPage payrollpage;
+    private static LoginPage loginpage;
+    private static EmployeesPage employeesPage;
+    private static SelfHealingDriver driver = LoginSteps.getDriver();
 
     @Given("I am on the login page")
     public void onLoginPage() {
         delegate = new ChromeDriver();
         driver = SelfHealingDriver.create(delegate);
-        payrollpage = new Adjustment(driver);
-        payrollpage.navigateTo();
+        loginpage = new LoginPage(driver);
+        payrollpage = new PayrollPage(driver);
+        employeesPage = new EmployeesPage(driver);
+        loginpage.navigateTo();
     }
 
-    @When("I enter valid credentials")
-    public void enterUsernamePassword() {
-        payrollpage.enterUsername("Raini\\admin");
-        payrollpage.enterPassword("rainier");
+    @When("I enter username {string} and password {string}")
+    public void enterUsernamePassword(String username, String password) {
+        loginpage.enterUsername(username);
+        loginpage.enterPassword(password);
     }
 
     @And("I click the login button")
     public void clickLoginButton() {
-        payrollpage.clickLoginButton();
+        loginpage.clickLoginButton();
     }
 
-    @Then("I should be logged in")
+    @Then("I should be logged in successfully")
     public void loginSuccess() {
-        firstScenario = payrollpage.isLoggedIn();
-        assertTrue("Scenario 1 failed", firstScenario);
+        assertTrue(loginpage.isLoggedIn());
     }
 
     @Given("I am on the payrolls page")
     public void payrollPage() {
-        if(!firstScenario) {
-            throw new RuntimeException("Scenario 1 failed, skipping Scenario 2");
-        }
         assertTrue(payrollpage.onPayrolls());
     }
 
-    @When("I create a new payroll run")
-    public void createPayrollRun() {
-        payrollpage.clickNewPayrollButton( "2024", "January", "Normal Payroll", "all", "1/1/2024", "1/31/2024");
-        payrollpage.selectMonth();
-        payrollpage.selectPayGroup();
-        payrollpage.selectRunType();
-        payrollpage.setDateFrom();
-        payrollpage.setDateTo();
-    }
-
-    @And("I save the payroll run")
-    public void savePayrollRun() {
+    @When("I create a new payroll run for {string} with type {string} for the pay group {string}")
+    public void createPayrollRun(String Payrolldate, String runType, String payGroup) {
+        payrollpage.createPayrollRun(Payrolldate, runType, payGroup);
         payrollpage.savePayroll();
     }
 
-    @And("I click the adjustments link for an employee")
-    public void clickAdjustmentButton() {
-        payrollpage.clickAdjustments();
-    }
-
-    @And("I add a new record")
-    public void newRecord() throws InterruptedException {
-        payrollpage.addNewRecord("Basic Adjustment", "Basic Adj1", "BA1", "133.29", "Test remark");
-    }
-
-    @And("I save the adjustment")
-    public void saveAdjustment() {
-        adjustmentDisplayed = payrollpage.saveAdjustment();
-        assertTrue("Adjustment table not updated", adjustmentDisplayed);
-    }
-
-    @And("I save and process the payroll")
-    public void saveAndProcessPayroll() {
+    @And("I add a one time adjustment for employee {string} of type {string} named {string} with code {string}, amount {string}, and remark {string}")
+    public void addNewAdjRecord(String empId, String adjustmentType, String name, String code, String amount, String remark) throws InterruptedException {
+        payrollpage.clickAdjustments(empId);
+        payrollpage.addNewAdjustmentRecord(adjustmentType, name, code, amount, remark);
+        assertTrue(payrollpage.isAdjustmentDisplayed());
+        payrollpage.closeAdjustmentModal();
+        payrollpage.next();
         payrollpage.saveAndProcessPayroll();
     }
 
     @Then("I should get the payroll summary table")
     public void isTableDisplayed() {
-        assertTrue(payrollpage.isTableDisplayed());
+        assertTrue(payrollpage.isSummaryTableDisplayed());
+        payrollpage.goToPayrollList();
         //driver.quit();
     }
 
-    @And("I should logout")
-    public void logout() {
-        payrollpage.logout();
-    }
-
-    @When("I navigate to the employees page")
+    @When("I go to the employees page")
     public void goToEmployees() {
-        payrollpage.employeePage();
+        payrollpage.goToEmployees();
     }
 
-    @And("I click the adjustments link of an employee")
-    public void clickAdjEmp() {
-        payrollpage.clickAdjustmentEmployee();
+    @And("I add a recurring adjustment for employee {string} of type {string} named {string} with code {string}, amount {string}, remark {string}, and date {string}")
+    public void addNewRecurringAdj(String empId, String adjustmentType, String name, String code, String amount, String remark, String date) throws InterruptedException {
+        employeesPage.clickAdjustments(empId);
+        employeesPage.addNewAdjustmentRecord(adjustmentType, name, code, amount, remark, date);
+        employeesPage.goToPayrollList();
     }
 
-    @And("I add and save an adjustment")
-    public void employeeAdjustment() throws InterruptedException {
-        adjDisplayed = payrollpage.employeeAdjustment("Basic Adjustment", "Basic Adj2", "BA2", "133.29", "1/1/2024", "test remark");
-        assertTrue("Adjustment table not updated", adjDisplayed);
-    }
-
-    @And("I create a new payroll run with the adjustment")
-    public void payrollWithAdj() {
-        payrollpage.payrollWithAdj("2024", "February", "Normal Payroll", "all", "2/1/2024", "2/29/2024");
-        payrollpage.selectMonth();
-        payrollpage.selectPayGroup();
-        payrollpage.selectRunType();
-        payrollpage.setDateFrom();
-        payrollpage.setDateTo();
+    @And("I create a payroll run for {string} with type {string} for the pay group {string}")
+    public void createRecurringPayrollRun(String Payrolldate, String runType, String payGroup) {
+        payrollpage.createPayrollRun(Payrolldate, runType, payGroup);
         payrollpage.savePayroll();
-        payrollpage.clickAdjustments();
-        adjRowDisplayed = payrollpage.isAdjDisplayed();
-        assertTrue("Adjustment table not updated", adjRowDisplayed);
-        payrollpage.saveAndProcessPayroll();
     }
 
-    @Then("I should get the summary table")
-    public void isSummaryDisplayed() {
-        assertTrue(payrollpage.isTableDisplayed());
-        //driver.quit();
+    @And("I see the recurring adjustment for employee {string}")
+    public void validateRecurringAdj(String empId) throws InterruptedException {
+        payrollpage.clickAdjustments(empId);
+        assertTrue(payrollpage.isAdjustmentDisplayed());
+        payrollpage.closeAdjustmentModal();
+        payrollpage.next();
+        payrollpage.saveAndProcessPayroll();
     }
 }

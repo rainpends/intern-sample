@@ -8,7 +8,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import pages.PayrollTable;
+import pages.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -16,53 +16,54 @@ import static org.junit.Assert.assertTrue;
 public class PayrollTableSteps {
     private static WebDriver delegate;
     private static SelfHealingDriver driver;
-    private static PayrollTable payrollpage;
-    private static Boolean firstScenario = false;
+    private static PayrollPage payrollpage;
+    private static PayrollSummaryPage payrollSummaryPage;
+    private static ReportsLogsPage reportsLogsPage;
+    private static LoginPage loginpage;
 
     @Given("I am on the login page")
     public void onLoginPage() {
         delegate = new ChromeDriver();
         driver = SelfHealingDriver.create(delegate);
-        payrollpage = new PayrollTable(driver);
-        payrollpage.navigateTo();
+        loginpage = new LoginPage(driver);
+        payrollpage = new PayrollPage(driver);
+        payrollSummaryPage = new PayrollSummaryPage(driver);
+        reportsLogsPage = new ReportsLogsPage(driver);
+        loginpage.navigateTo();
     }
 
-    @When("I enter valid credentials")
-    public void enterUsernamePassword() {
-        payrollpage.enterUsername("Raini\\admin");
-        payrollpage.enterPassword("rainier");
+    @When("I enter username {string} and password {string}")
+    public void enterUsernamePassword(String username, String password) {
+        loginpage.enterUsername(username);
+        loginpage.enterPassword(password);
     }
 
     @And("I click the login button")
     public void clickLoginButton() {
-        payrollpage.clickLoginButton();
+        loginpage.clickLoginButton();
     }
 
-    @Then("I should be logged in")
+    @Then("I should be logged in successfully")
     public void loginSuccess() {
-        firstScenario = payrollpage.isLoggedIn();
-        assertTrue("Scenario 1 failed", firstScenario);
+        assertTrue(loginpage.isLoggedIn());
     }
 
     @Given("I am on the payrolls page")
     public void payrollPage() {
-        if(!firstScenario) {
-            throw new RuntimeException("Scenario 1 failed, skipping Scenario 2");
-        }
         assertTrue(payrollpage.onPayrolls());
     }
 
     @When("I create a new payroll run for {string} with type {string} for the pay group {string}")
     public void createPayrollRun(String Payrolldate, String runType, String payGroup) {
         payrollpage.createPayrollRun(Payrolldate, runType, payGroup);
-        payrollpage.savePayroll();
+        payrollpage.saveAndNext();
         payrollpage.saveAndProcessPayroll();
     }
 
     @Then("I should get the payroll summary table")
     public void isTableDisplayed() {
-        assertTrue(payrollpage.isTableDisplayed());
-        payrollpage.backToList();
+        assertTrue(payrollpage.isSummaryTableDisplayed());
+        payrollpage.backToPayrollList();
         //driver.quit();
     }
 
@@ -73,6 +74,9 @@ public class PayrollTableSteps {
 
     @Then("I download the payroll summary excel")
     public void downloadTable() throws InterruptedException {
-        payrollpage.exportExcel();
+        payrollpage.goToPayrollSummary();
+        payrollSummaryPage.selectPayroll();
+        payrollSummaryPage.goToReportsLogs();
+        reportsLogsPage.downloadReportLog();
     }
 }

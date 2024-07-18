@@ -11,7 +11,7 @@ import static org.junit.Assert.assertTrue;
 public class LoginSteps {
     private WebDriver delegate;
     private LoginPage loginpage;
-    private SelfHealingDriver driver;
+    private static SelfHealingDriver driver;
 
     @Given("I am on the login page")
     public void onLoginPage() {
@@ -21,10 +21,10 @@ public class LoginSteps {
         loginpage.navigateTo();
     }
 
-    @When("I enter valid username and password")
-    public void enterUsernamePassword() {
-        loginpage.enterUsername("Veron\\admin");
-        loginpage.enterPassword("diane");
+    @When("I enter username {string} and password {string}")
+    public void enterUsernamePassword(String username, String password) {
+        loginpage.enterUsername(username);
+        loginpage.enterPassword(password);
     }
 
     @And("I click the login button")
@@ -36,5 +36,9 @@ public class LoginSteps {
     public void loginSuccess() {
         assertTrue(loginpage.isLoggedIn());
         driver.quit();
+    }
+
+    public static SelfHealingDriver getDriver() {
+        return driver;
     }
 }
