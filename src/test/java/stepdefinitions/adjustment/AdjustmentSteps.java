@@ -7,7 +7,6 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import pages.Adjustment;
 import pages.EmployeesPage;
 import pages.LoginPage;
 import pages.PayrollPage;
@@ -98,7 +97,7 @@ public class AdjustmentSteps {
     @And("I see the recurring adjustment for employee {string}")
     public void validateRecurringAdj(String empId) throws InterruptedException {
         payrollpage.clickAdjustments(empId);
-        assertTrue(payrollpage.isAdjustmentDisplayed());
+        assertTrue(payrollpage.isAdjustmentDisplayedDefault());
         payrollpage.closeAdjustmentModal();
         payrollpage.next();
         payrollpage.saveAndProcessPayroll();

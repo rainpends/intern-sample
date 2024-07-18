@@ -40,3 +40,13 @@ Feature: Payroll
     And I see the recurring adjustment for employee "123"
     Then I should get the payroll summary table
 
+  @payrollrun @attendance
+  Scenario: Payroll run with Attendance Input
+    Given I am on the payrolls page
+    When I create a new payroll run for "January 1-31, 2024" with type "Normal Payroll" for the pay group "all"
+    And I enter the following values on the attendance table
+      | ID   |         Name      | Days Absent | Undertime | Ord-OT | Ord-ND | Ord-ND-OT | RegNDExcess | RD    | RD-OT | RD-ND | RD-ND-OT | SunNDExcess | SH    | SH-OT | SH-ND | SH-ND-OT | SHNDExcess | LH    | LH-OT | LH-ND | LH-ND-OT | LHNDExcess | SH-RD | SH-RD-OT | SH-RD-ND | SH-RD-ND-OT | SHRNDExcess | LH-RD | LH-RD-OT | LH-RD-ND | LH-RD-ND-OT | LHRNDExcess | DH    | DH-OT | DH-ND | DH-ND-OT | DHNDExcess | DH-RD | DH-RD-OT | DH-RD-ND | DH-RD-ND-OT |
+      | 111  | John Rainier      | 1           | 150       | 10:00  | 40:00  | 05:00     | 01:30       | 16:00 | 02:00 | 01:30 | 00:45    | 00:30       | 08:00 | 01:00 | 02:00 | 00:30    | 00:15      | 08:00 | 02:00 | 01:00 | 00:30    | 00:15      | 08:00 | 02:00    | 01:30    | 00:45       | 00:30       | 08:00 | 03:00    | 02:00    | 01:00       | 00:45       | 08:00 | 01:00 | 01:30 | 00:45    | 00:30      | 08:00 | 02:00    | 01:00    | 00:30       |
+      | 222  | Rainier Joseph    | 0           | 75        | 15:00  | 35:00  | 03:00     | 00:45       | 08:00 | 01:30 | 04:00 | 01:00    | 00:30       | 08:00 | 00:30 | 04:00 | 01:00    | 00:15      | 08:00 | 01:00 | 04:00 | 00:30    | 00:15      | 08:00 | 01:30    | 02:00    | 00:45       | 00:30       | 08:00 | 02:00    | 04:00    | 01:00       | 00:30       | 08:00 | 01:30 | 02:00 | 00:45    | 00:30      | 08:00 | 01:00    | 01:30    | 00:45       |
+    Then I should get the payroll summary table
+

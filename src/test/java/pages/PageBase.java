@@ -200,6 +200,11 @@ public class PageBase {
         jsx.executeScript("window.scrollTo(0, 0);");
     }
 
+    public void tableScroll(By locator, Integer length) {
+        JavascriptExecutor jsx = (JavascriptExecutor) this.driver;
+        jsx.executeScript("arguments[0].scrollLeft = arguments[1];", driver.findElement(locator), length);
+    }
+
     public void switchFrameLocator(By locator) {
         driver.switchTo().frame(driver.findElement(locator));
     }

@@ -10,9 +10,9 @@ import org.junit.runner.RunWith;
                 "src/test/java/features/login",
                 "src/test/java/features/payroll"
         },
-        glue = "stepdefinitions.adjustment",
+        glue = "stepdefinitions.payrollAttendance",
         plugin = {"pretty", "html:target/cucumber-reports"},
-        tags = "@login or (@payrollrun and @oneTimeAdjustment) or (@payrollrun and @recurringAdjustment)"
+        tags = "@login or (@payrollrun and @attendance)"
 )
 
 public class TestRunner {
