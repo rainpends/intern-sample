@@ -501,13 +501,13 @@ public class PayrollPage extends PageBase {
         enterText(REG_OT_1, row.get("Ord-OT"));
         enterText(REG_ND_1, row.get("Ord-ND"));
         enterText(REG_ND_OT_1, row.get("Ord-ND-OT"));
-        tableScroll(TABLE_SCROLL_OUTER, 2000);
+        tableScroll(TABLE_SCROLL_OUTER, 1000);
         enterText(REG_ND_EXCESS_1, row.get("RegNDExcess"));
         enterText(SUN_EXCESS_1, row.get("RD"));
         enterText(SUN_OT_1, row.get("RD-OT"));
         enterText(SUN_ND_1, row.get("RD-ND"));
         enterText(SUN_ND_OT_1, row.get("RD-ND-OT"));
-        tableScroll(TABLE_SCROLL_OUTER, 2000);
+        tableScroll(TABLE_SCROLL_OUTER, 1500);
         enterText(SUN_ND_EXCESS_1, row.get("SunNDExcess"));
         enterText(SH_EXCESS_1, row.get("SH"));
         enterText(SH_OT_1, row.get("SH-OT"));
@@ -519,7 +519,7 @@ public class PayrollPage extends PageBase {
         enterText(LH_OT_1, row.get("LH-OT"));
         enterText(LH_ND_1, row.get("LH-ND"));
         enterText(LH_ND_OT_1, row.get("LH-ND-OT"));
-        tableScroll(TABLE_SCROLL_OUTER, 2000);
+        tableScroll(TABLE_SCROLL_OUTER, 1500);
         enterText(LH_ND_EXCESS_1, row.get("LHNDExcess"));
         enterText(SH_R_EXCESS_1, row.get("SH-RD"));
         enterText(SH_R_OT_1, row.get("SH-RD-OT"));
@@ -531,7 +531,7 @@ public class PayrollPage extends PageBase {
         enterText(LH_R_OT_1, row.get("LH-RD-OT"));
         enterText(LH_R_ND_1, row.get("LH-RD-ND"));
         enterText(LH_R_ND_OT_1, row.get("LH-RD-ND-OT"));
-        tableScroll(TABLE_SCROLL_OUTER, 2000);
+        tableScroll(TABLE_SCROLL_OUTER, 1500);
         enterText(LH_R_ND_EXCESS_1, row.get("LHRNDExcess"));
         enterText(DH_EXCESS_1, row.get("DH"));
         enterText(DH_OT_1, row.get("DH-OT"));
