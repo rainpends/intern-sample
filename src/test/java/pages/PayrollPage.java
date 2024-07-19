@@ -493,7 +493,7 @@ public class PayrollPage extends PageBase {
         clickElement(SEARCH_EMPLOYEE_BTN);
     }
 
-    public void enterAttendance1(Map<String, String> row) {
+    public void enterAttendance1(Map<String, String> row) throws InterruptedException {
         waitForElement(LOADING, 15, "invisible");
         enterText(NAME_1, row.get("Name"));
         enterText(DAYS_ABSENT_1, row.get("Days Absent"));
@@ -501,14 +501,18 @@ public class PayrollPage extends PageBase {
         enterText(REG_OT_1, row.get("Ord-OT"));
         enterText(REG_ND_1, row.get("Ord-ND"));
         enterText(REG_ND_OT_1, row.get("Ord-ND-OT"));
-        tableScroll(TABLE_SCROLL_OUTER, 1000);
+//        Thread.sleep(1500);
+        tableScroll(TABLE_SCROLL_OUTER, 500);
         enterText(REG_ND_EXCESS_1, row.get("RegNDExcess"));
         enterText(SUN_EXCESS_1, row.get("RD"));
         enterText(SUN_OT_1, row.get("RD-OT"));
+//        Thread.sleep(1500);
+        tableScroll(TABLE_SCROLL_OUTER, 1000);
         enterText(SUN_ND_1, row.get("RD-ND"));
         enterText(SUN_ND_OT_1, row.get("RD-ND-OT"));
-        tableScroll(TABLE_SCROLL_OUTER, 1500);
         enterText(SUN_ND_EXCESS_1, row.get("SunNDExcess"));
+//        Thread.sleep(1500);
+        tableScroll(TABLE_SCROLL_OUTER, 1500);
         enterText(SH_EXCESS_1, row.get("SH"));
         enterText(SH_OT_1, row.get("SH-OT"));
         enterText(SH_ND_1, row.get("SH-ND"));
@@ -517,36 +521,98 @@ public class PayrollPage extends PageBase {
         enterText(SH_ND_EXCESS_1, row.get("SHNDExcess"));
         enterText(LH_EXCESS_1, row.get("LH"));
         enterText(LH_OT_1, row.get("LH-OT"));
+        tableScroll(TABLE_SCROLL_OUTER, 2500);
         enterText(LH_ND_1, row.get("LH-ND"));
         enterText(LH_ND_OT_1, row.get("LH-ND-OT"));
-        tableScroll(TABLE_SCROLL_OUTER, 1500);
         enterText(LH_ND_EXCESS_1, row.get("LHNDExcess"));
+        tableScroll(TABLE_SCROLL_OUTER, 3000);
         enterText(SH_R_EXCESS_1, row.get("SH-RD"));
         enterText(SH_R_OT_1, row.get("SH-RD-OT"));
         enterText(SH_R_ND_1, row.get("SH-RD-ND"));
+        tableScroll(TABLE_SCROLL_OUTER, 3500);
         enterText(SH_R_ND_OT_1, row.get("SH-RD-ND-OT"));
-        tableScroll(TABLE_SCROLL_OUTER, 2000);
         enterText(SH_R_ND_EXCESS_1, row.get("SHRNDExcess"));
         enterText(LH_R_EXCESS_1, row.get("LH-RD"));
+        tableScroll(TABLE_SCROLL_OUTER, 4000);
         enterText(LH_R_OT_1, row.get("LH-RD-OT"));
         enterText(LH_R_ND_1, row.get("LH-RD-ND"));
         enterText(LH_R_ND_OT_1, row.get("LH-RD-ND-OT"));
-        tableScroll(TABLE_SCROLL_OUTER, 1500);
+        tableScroll(TABLE_SCROLL_OUTER, 4500);
         enterText(LH_R_ND_EXCESS_1, row.get("LHRNDExcess"));
         enterText(DH_EXCESS_1, row.get("DH"));
         enterText(DH_OT_1, row.get("DH-OT"));
+        tableScroll(TABLE_SCROLL_OUTER, 5000);
         enterText(DH_ND_1, row.get("DH-ND"));
         enterText(DH_ND_OT_1, row.get("DH-ND-OT"));
-        tableScroll(TABLE_SCROLL_OUTER, 2000);
         enterText(DH_ND_EXCESS_1, row.get("DHNDExcess"));
+        tableScroll(TABLE_SCROLL_OUTER, 5500);
         enterText(DH_R_EXCESS_1, row.get("DH-RD"));
         enterText(DH_R_OT_1, row.get("DH-RD-OT"));
         enterText(DH_R_ND_1, row.get("DH-RD-ND"));
+        tableScroll(TABLE_SCROLL_OUTER, 6000);
         enterText(DH_R_ND_OT_1, row.get("DH-RD-ND-OT"));
+        tableScroll(TABLE_SCROLL_OUTER, 0);
     }
 
     public void enterAttendance2(Map<String, String> row) {
-
+        waitForElement(LOADING, 15, "invisible");
+        enterText(NAME_2, row.get("Name"));
+        enterText(DAYS_ABSENT_2, row.get("Days Absent"));
+        enterText(UNDERTIME_2, row.get("Undertime"));
+        enterText(REG_OT_2, row.get("Ord-OT"));
+        enterText(REG_ND_2, row.get("Ord-ND"));
+        enterText(REG_ND_OT_2, row.get("Ord-ND-OT"));
+//        Thread.sleep(1500);
+        tableScroll(TABLE_SCROLL_OUTER, 500);
+        enterText(REG_ND_EXCESS_2, row.get("RegNDExcess"));
+        enterText(SUN_EXCESS_2, row.get("RD"));
+        enterText(SUN_OT_2, row.get("RD-OT"));
+//        Thread.sleep(1500);
+        tableScroll(TABLE_SCROLL_OUTER, 1000);
+        enterText(SUN_ND_2, row.get("RD-ND"));
+        enterText(SUN_ND_OT_2, row.get("RD-ND-OT"));
+        enterText(SUN_ND_EXCESS_2, row.get("SunNDExcess"));
+//        Thread.sleep(1500);
+        tableScroll(TABLE_SCROLL_OUTER, 1500);
+        enterText(SH_EXCESS_2, row.get("SH"));
+        enterText(SH_OT_2, row.get("SH-OT"));
+        enterText(SH_ND_2, row.get("SH-ND"));
+        enterText(SH_ND_OT_2, row.get("SH-ND-OT"));
+        tableScroll(TABLE_SCROLL_OUTER, 2000);
+        enterText(SH_ND_EXCESS_2, row.get("SHNDExcess"));
+        enterText(LH_EXCESS_2, row.get("LH"));
+        enterText(LH_OT_2, row.get("LH-OT"));
+        tableScroll(TABLE_SCROLL_OUTER, 2500);
+        enterText(LH_ND_2, row.get("LH-ND"));
+        enterText(LH_ND_OT_2, row.get("LH-ND-OT"));
+        enterText(LH_ND_EXCESS_2, row.get("LHNDExcess"));
+        tableScroll(TABLE_SCROLL_OUTER, 3000);
+        enterText(SH_R_EXCESS_2, row.get("SH-RD"));
+        enterText(SH_R_OT_2, row.get("SH-RD-OT"));
+        enterText(SH_R_ND_2, row.get("SH-RD-ND"));
+        tableScroll(TABLE_SCROLL_OUTER, 3500);
+        enterText(SH_R_ND_OT_2, row.get("SH-RD-ND-OT"));
+        enterText(SH_R_ND_EXCESS_2, row.get("SHRNDExcess"));
+        enterText(LH_R_EXCESS_2, row.get("LH-RD"));
+        tableScroll(TABLE_SCROLL_OUTER, 4000);
+        enterText(LH_R_OT_2, row.get("LH-RD-OT"));
+        enterText(LH_R_ND_2, row.get("LH-RD-ND"));
+        enterText(LH_R_ND_OT_2, row.get("LH-RD-ND-OT"));
+        tableScroll(TABLE_SCROLL_OUTER, 4500);
+        enterText(LH_R_ND_EXCESS_2, row.get("LHRNDExcess"));
+        enterText(DH_EXCESS_2, row.get("DH"));
+        enterText(DH_OT_2, row.get("DH-OT"));
+        tableScroll(TABLE_SCROLL_OUTER, 5000);
+        enterText(DH_ND_2, row.get("DH-ND"));
+        enterText(DH_ND_OT_2, row.get("DH-ND-OT"));
+        enterText(DH_ND_EXCESS_2, row.get("DHNDExcess"));
+        tableScroll(TABLE_SCROLL_OUTER, 5500);
+        enterText(DH_R_EXCESS_2, row.get("DH-RD"));
+        enterText(DH_R_OT_2, row.get("DH-RD-OT"));
+        enterText(DH_R_ND_2, row.get("DH-RD-ND"));
+        tableScroll(TABLE_SCROLL_OUTER, 6000);
+        enterText(DH_R_ND_OT_2, row.get("DH-RD-ND-OT"));
+        tableScroll(TABLE_SCROLL_OUTER, 0);
     }
 
     public void saveAndProcessPayroll() {
