@@ -63,8 +63,7 @@ public class PayrollAttendanceSteps {
     @And("I enter the following values on the attendance table")
     public void enterValuesAttendance(DataTable table) throws InterruptedException {
         List<Map<String, String>> rows = table.asMaps(String.class, String.class);
-        payrollpage.enterAttendance1(rows.get(0));
-        payrollpage.enterAttendance2(rows.get(1));
+        payrollpage.enterAttendance(rows);
     }
 
     @Then("I should get the payroll summary table")
